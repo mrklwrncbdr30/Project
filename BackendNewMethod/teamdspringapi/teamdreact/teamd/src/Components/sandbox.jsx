@@ -13,12 +13,13 @@ const Sandbox = () => {
   const [userData, setuserData] = useState([]);
   const [instructorData, setinstructorData] = useState([]);
   const [supportData, setsupportData] = useState([]);
+  const [CertificationData, setCertificationData] = useState([]);
 
   useEffect(() => {
     const loadEnrollment = async () => {
       try {
         // always call it like how you call it on postman(json)
-        const enrollmentResult = await axios.get("http://localhost:8080/api/enrollments/1");
+        const enrollmentResult = await axios.get("http://localhost:8080/api/enrollments/2");
         setEnrollment(enrollmentResult.data);
 
         const courseResult = await axios.get(`http://localhost:8080/api/courses/${enrollmentResult.data.courseId}`);
@@ -32,6 +33,7 @@ const Sandbox = () => {
 
         const supportResult = await axios.get(`http://localhost:8080/api/supports/${enrollmentResult.data.supportID}`);
         setsupportData(supportResult.data);
+
       } catch (error) {
         console.error("Error fetching course data:", error);
       }
@@ -40,7 +42,7 @@ const Sandbox = () => {
   }, []);
 
   console.log(enrollment);
-
+  console.log(enrollment.enrollmentDate);
   return (
     <div>
       {/* <div className="cert_con">
@@ -49,10 +51,12 @@ const Sandbox = () => {
         </Document>
       </div> */}
       <h1>Enrollment ID: {enrollment.enrollmentID}</h1>
-      <h1>Course Title: {courseData.title}</h1> 
-      <h1>Enrollment Date: {enrollment.enrollmentDate}</h1>
       <h1>User: {userData.full_name}</h1>
+      <h1>Course Title: {courseData.title}</h1> 
       <h1>Instructor: {instructorData.full_name}</h1>
+      <h1>Enrollment Date: {enrollment.enrollmentDate}</h1>
+      <h1>Cancelled: {enrollment.cancelled}</h1>
+      <h1>Cancellation Reason: {enrollment.cancellationReason}</h1>
       <h1>Support: {supportData.full_name}</h1>
     </div>
   );

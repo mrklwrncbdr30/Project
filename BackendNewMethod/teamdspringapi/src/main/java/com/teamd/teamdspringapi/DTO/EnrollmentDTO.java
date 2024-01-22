@@ -1,6 +1,7 @@
 package com.teamd.teamdspringapi.DTO;
 
-import java.time.LocalDate;
+import java.sql.Date;
+
 
 public class EnrollmentDTO {
     private long EnrollmentID;
@@ -8,7 +9,7 @@ public class EnrollmentDTO {
     private long UserID;
     private long InstructorID;
     private long SupportID;
-    private LocalDate EnrollmentDate;
+    private Date EnrollmentDate;
     private String Cancelled;
     private String CancellationReason;
 
@@ -53,11 +54,11 @@ public class EnrollmentDTO {
         this.SupportID = SupportID;
     }
 
-    public LocalDate getEnrollmentDate() {
+    public Date getEnrollmentDate() {
         return this.EnrollmentDate;
     }
 
-    public void setEnrollmentDate(LocalDate EnrollmentDate) {
+    public void setEnrollmentDate(Date EnrollmentDate) {
         this.EnrollmentDate = EnrollmentDate;
     }
 
@@ -76,5 +77,6 @@ public class EnrollmentDTO {
     public void setCancellationReason(String CancellationReason) {
         this.CancellationReason = CancellationReason;
     }
+
 
 }

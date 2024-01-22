@@ -1,6 +1,6 @@
 package com.teamd.teamdspringapi.entity;
 
-import java.time.LocalDate;
+import java.sql.Date;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -11,62 +11,65 @@ import jakarta.persistence.Id;
 public class Enrollment {
 @Id
 @GeneratedValue(strategy = GenerationType.IDENTITY)
-private long EnrollmentID;
-private long courseId;
-private long UserID;
-private long InstructorID;
-private long SupportID;
-private LocalDate EnrollmentDate;
+private Long EnrollmentID;
+private Long courseId;
+private Long UserID;
+private Long InstructorID;
+private Long SupportID;
+private Date enrollmentDate;
 private String Cancelled;
 private String CancellationReason;
 
 
-    public long getEnrollmentID() {
+
+   
+
+    public Long getEnrollmentID() {
         return this.EnrollmentID;
     }
 
-    public void setEnrollmentID(long EnrollmentID) {
+    public void setEnrollmentID(Long EnrollmentID) {
         this.EnrollmentID = EnrollmentID;
     }
 
-    public long getCourseId() {
+    public Long getCourseId() {
         return this.courseId;
     }
 
-    public void setCourseId(long courseId) {
+    public void setCourseId(Long courseId) {
         this.courseId = courseId;
     }
 
-    public long getUserID() {
+    public Long getUserID() {
         return this.UserID;
     }
 
-    public void setUserID(long UserID) {
+    public void setUserID(Long UserID) {
         this.UserID = UserID;
     }
 
-    public long getInstructorID() {
+    public Long getInstructorID() {
         return this.InstructorID;
     }
 
-    public void setInstructorID(long InstructorID) {
+    public void setInstructorID(Long InstructorID) {
         this.InstructorID = InstructorID;
     }
 
-    public long getSupportID() {
+    public Long getSupportID() {
         return this.SupportID;
     }
 
-    public void setSupportID(long SupportID) {
+    public void setSupportID(Long SupportID) {
         this.SupportID = SupportID;
     }
 
-    public LocalDate getEnrollmentDate() {
-        return this.EnrollmentDate;
+    public Date getEnrollmentDate() {
+        return this.enrollmentDate;
     }
 
-    public void setEnrollmentDate(LocalDate EnrollmentDate) {
-        this.EnrollmentDate = EnrollmentDate;
+    public void setEnrollmentDate(Date enrollmentDate) {
+        this.enrollmentDate = enrollmentDate;
     }
 
     public String getCancelled() {
@@ -84,6 +87,5 @@ private String CancellationReason;
     public void setCancellationReason(String CancellationReason) {
         this.CancellationReason = CancellationReason;
     }
-
 
 }
