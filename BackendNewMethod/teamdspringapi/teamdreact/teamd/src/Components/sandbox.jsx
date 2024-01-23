@@ -19,7 +19,7 @@ const Sandbox = () => {
     const loadEnrollment = async () => {
       try {
         // always call it like how you call it on postman(json)
-        const enrollmentResult = await axios.get("http://localhost:8080/api/enrollments/2");
+        const enrollmentResult = await axios.get("http://localhost:8080/api/enrollments/1");
         setEnrollment(enrollmentResult.data);
 
         const courseResult = await axios.get(`http://localhost:8080/api/courses/${enrollmentResult.data.courseId}`);
@@ -34,7 +34,7 @@ const Sandbox = () => {
         const supportResult = await axios.get(`http://localhost:8080/api/supports/${enrollmentResult.data.supportID}`);
         setsupportData(supportResult.data);
 
-        const certificationResult = await axios.get("http://localhost:8080/api/badges/3");
+        const certificationResult = await axios.get("http://localhost:8080/api/badges/2");
         setCertificationData(certificationResult.data);
 
       } catch (error) {
