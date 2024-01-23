@@ -1,6 +1,5 @@
 package com.teamd.teamdspringapi.controller;
 
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,26 +19,26 @@ import com.teamd.teamdspringapi.service.BadgeService;
 @RequestMapping("/api/badges")
 @CrossOrigin("http://localhost:5173")
 public class BadgeController {
-    @Autowired
-    private BadgeService badgeService;
+@Autowired
+private BadgeService badgeService;
 
-    @GetMapping
-    public List<Badge> getAllBadge() {
-        return badgeService.getAllBadge();
-    }
+@GetMapping
+public List<Badge> getAllBadge(){
+    return badgeService.getAllBadge();
+}
 
-    @GetMapping("/{BadgeID}")
-    public Badge getBadgeById(@PathVariable Long BadgeID) {
-        return badgeService.getBadgeById(BadgeID);
-    }
+@GetMapping("/{BadgeID}")
+public Badge getBadgeById(@PathVariable Long BadgeID){
+    return badgeService.getBadgeById(BadgeID);
+}
 
-    @PostMapping
-    public Badge saveBadge(@RequestBody Badge badge) {
-        return badgeService.saveBadge(badge);
-    }
+@PostMapping
+public Badge saveBadge(@RequestBody Badge badge){
+    return badgeService.saveBadge(badge);
+}
 
-    @DeleteMapping
-    public void deleteBadge(@PathVariable Long BadgeID) {
-        badgeService.deleteBadge(BadgeID);
-    }
+@DeleteMapping
+public void deleteBadge(@PathVariable Long BadgeID){
+    badgeService.deleteBadge(BadgeID);
+}
 }

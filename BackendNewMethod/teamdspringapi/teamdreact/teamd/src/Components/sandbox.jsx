@@ -34,6 +34,9 @@ const Sandbox = () => {
         const supportResult = await axios.get(`http://localhost:8080/api/supports/${enrollmentResult.data.supportID}`);
         setsupportData(supportResult.data);
 
+        const certificationResult = await axios.get("http://localhost:8080/api/badges/3");
+        setCertificationData(certificationResult.data);
+
       } catch (error) {
         console.error("Error fetching course data:", error);
       }
@@ -41,7 +44,7 @@ const Sandbox = () => {
     loadEnrollment();
   }, []);
 
-  console.log(enrollment);
+  console.log("http://localhost:8080/api/badges");
   console.log(enrollment.enrollmentDate);
   return (
     <div>
@@ -58,6 +61,9 @@ const Sandbox = () => {
       <h1>Cancelled: {enrollment.cancelled}</h1>
       <h1>Cancellation Reason: {enrollment.cancellationReason}</h1>
       <h1>Support: {supportData.full_name}</h1>
+      <h1>test: {CertificationData.badgeID}</h1>
+      <h1>test: {CertificationData.badge_image}</h1>
+      <h1>test: {CertificationData.badge_name}</h1>
     </div>
   );
 };
