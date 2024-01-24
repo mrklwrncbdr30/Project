@@ -84,9 +84,9 @@ function CertificateGenerator() {
       const originalDateIssued = new Date(CertificationData.dateIssued).toLocaleDateString();
       doc.setFontSize(10);
       doc.text(`${originalDateIssued}`, 87, 154, { align: 'right' });
-      
       doc.setFontSize(10);
       doc.text(`${CertificationData.certificateSerialNo}`, 96, 158, { align: 'right' });
+      doc.text(`${courseData.courseId}`, 75, 163, { align: 'right' });
 
       // Include other relevant data from the fetched JSON objects (BadgeData, etc.)
 
