@@ -72,7 +72,7 @@ function CertificateGenerator() {
       doc.setFontSize(20);
       doc.text(`${courseData.title}`, 190, 119, { align: 'center' });
       doc.setTextColor(0, 0, 0);
-      doc.text(`${instructorData.full_name}`, 160, 168, { align: 'left' });
+      doc.text(`${instructorData.full_name}`, 157, 168, { align: 'left' });
 
       // Use the formatted date with month as a string
       const options = { day: 'numeric', month: 'long', year: 'numeric' };
@@ -101,7 +101,6 @@ function CertificateGenerator() {
       console.log('courseData:', courseData);
       console.log('userData:', userData);
       console.log('instructorData:', instructorData);
-      console.log('BadgeData:', BadgeData);
 
       // Embed the PDF in an iframe
       const pdfContent = doc.output('datauristring');
