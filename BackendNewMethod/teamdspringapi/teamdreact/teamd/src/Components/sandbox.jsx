@@ -10,10 +10,11 @@ const Sandbox = () => {
   const samplePDF = "/PDF/Sample.pdf";
   const [enrollment, setEnrollment] = useState([]);
   const [courseData, setcourseData] = useState([]);
-  const [userData, setuserData] = useState([]);
+  const [userData, setuserData] = useState([]);//
   const [instructorData, setinstructorData] = useState([]);
   const [supportData, setsupportData] = useState([]);
   const [CertificationData, setCertificationData] = useState([]);
+
 
   useEffect(() => {
     const loadEnrollment = async () => {
@@ -34,8 +35,8 @@ const Sandbox = () => {
         const supportResult = await axios.get(`http://localhost:8080/api/supports/${enrollmentResult.data.supportID}`);
         setsupportData(supportResult.data);
 
-        const certificationResult = await axios.get("http://localhost:8080/api/badges/3");
-        setCertificationData(certificationResult.data);
+        // const certificationResult = await axios.get("http://localhost:8080/api/badges/3");
+        // setCertificationData(certificationResult.data);
 
       } catch (error) {
         console.error("Error fetching course data:", error);
@@ -44,8 +45,8 @@ const Sandbox = () => {
     loadEnrollment();
   }, []);
 
-  console.log("http://localhost:8080/api/badges");
-  console.log(enrollment.enrollmentDate);
+  // console.log("http://localhost:8080/api/badges");
+  console.log(enrollment);
   return (
     <div>
       {/* <div className="cert_con">
