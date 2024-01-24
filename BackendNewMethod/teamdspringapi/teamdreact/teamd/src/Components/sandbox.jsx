@@ -20,6 +20,7 @@ const Sandbox = () => {
     const loadEnrollment = async () => {
       try {
         // always call it like how you call it on postman(json)
+        
         // const enrollmentResult = await axios.get("http://localhost:8080/api/enrollments/1");
         // setEnrollment(enrollmentResult.data);
 
@@ -79,14 +80,14 @@ const Sandbox = () => {
       {/* <h1>test: {BadgeData.badgeID}</h1>
       <h1>test: {BadgeData.badge_image}</h1>
       <h1>test: {BadgeData.badge_name}</h1> */}
-      <h1>CertID: {CertificationData.certificateID}</h1>
+      {/* <h1>CertID: {CertificationData.certificateID}</h1>
       <h1>Certificate Serial No: {CertificationData.certificateSerialNo}</h1>
       <h1>Course Title: {courseData.title}</h1> 
       <h1>Instructor: {instructorData.full_name}</h1>
       <h1>User: {userData.full_name}</h1>
       <h1>Date Issued: {CertificationData.dateIssued}</h1>
       <h1>Criteria: {CertificationData.criteria}</h1>
-      <h1>Badge Image: {BadgeData.badge_image}</h1>
+      <h1>Badge Image: {BadgeData.badge_image}</h1> */}
     </div>
   );
 };
