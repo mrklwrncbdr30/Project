@@ -11,7 +11,7 @@ public class Badge {
 @Id
 @GeneratedValue(strategy = GenerationType.IDENTITY)
 @NonNull
-private long BadgeID;
+private Long BadgeID;
 private String badge_image;
 private String badge_name;
 

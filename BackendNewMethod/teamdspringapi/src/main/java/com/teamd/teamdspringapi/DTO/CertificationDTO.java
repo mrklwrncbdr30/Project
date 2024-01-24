@@ -5,7 +5,7 @@ import java.sql.Date;
 public class CertificationDTO {
 private Long CertificateID;
 private Long CertificateSerialNo;
-private Long course_id;
+private Long courseId;
 private Long UserID;
 private Long InstructorID;
 private Long SupportID;
@@ -32,12 +32,12 @@ private String Criteria;
         this.CertificateSerialNo = CertificateSerialNo;
     }
 
-    public Long getCourse_id() {
-        return this.course_id;
+    public Long getcourseId() {
+        return this.courseId;
     }
 
-    public void setCourse_id(Long course_id) {
-        this.course_id = course_id;
+    public void setcourseId(Long courseId) {
+        this.courseId = courseId;
     }
 
     public Long getUserID() {
