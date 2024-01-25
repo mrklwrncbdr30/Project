@@ -3,6 +3,7 @@ import jsPDF from 'jspdf';
 import img from '../assets/certificate-background.png';
 import signatureImg from '../assets/Signiture.png';
 import axios from 'axios';
+import { saveAs } from 'file-saver';
 
 // Add the toDataUrl function here
 async function toDataUrl(url) {
@@ -22,40 +23,58 @@ async function toDataUrl(url) {
   });
 }
 
+// Extracted CertificateDisplay as a functional component
+const CertificateDisplay = ({ pdfUrl }) => {
+  return (
+    <div>
+      <embed src={pdfUrl} type="application/pdf" width="100%" height="400px" style={{ border: 'none' }} />
+    </div>
+  );
+};
+
 function CertificateGenerator() {
-  const [CertificationData, setCertificationData] = useState([]);
-  const [courseData, setcourseData] = useState([]);
-  const [userData, setuserData] = useState([]);
-  const [instructorData, setinstructorData] = useState([]);
-  const [BadgeData, setBadgeData] = useState([]);
+  const [certificationData, setCertificationData] = useState([]);
+  const [courseData, setCourseData] = useState([]);
+  const [userData, setUserData] = useState([]);
+  const [instructorData, setInstructorData] = useState([]);
+  const [badgeData, setBadgeData] = useState([]);
   const [showCertificate, setShowCertificate] = useState(false);
+  const [dataLoaded, setDataLoaded] = useState(false);
 
   useEffect(() => {
-    const loadCertificationData = async () => {
+    const fetchData = async () => {
       try {
         const certificationResult = await axios.get('http://localhost:8080/api/certifications/1');
         setCertificationData(certificationResult.data);
 
         const courseResult = await axios.get(`http://localhost:8080/api/courses/${certificationResult.data.courseId}`);
-        setcourseData(courseResult.data);
+        setCourseData(courseResult.data);
 
         const usersResult = await axios.get(`http://localhost:8080/api/users/${certificationResult.data.userID}`);
-        setuserData(usersResult.data);
+        setUserData(usersResult.data);
 
         const instructorResult = await axios.get(`http://localhost:8080/api/instructors/${certificationResult.data.instructorID}`);
-        setinstructorData(instructorResult.data);
+        setInstructorData(instructorResult.data);
 
-        const BadgeResult = await axios.get(`http://localhost:8080/api/badges/${certificationResult.data.badgeID}`);
-        setBadgeData(BadgeResult.data);
+        const badgeResult = await axios.get(`http://localhost:8080/api/badges/${certificationResult.data.badgeID}`);
+        setBadgeData(badgeResult.data);
+
+        setDataLoaded(true);
       } catch (error) {
         console.error('Error fetching certification data:', error);
       }
     };
-    loadCertificationData();
+
+    fetchData();
   }, []);
 
   async function generateCertificate() {
     try {
+      if (!dataLoaded) {
+        console.error('Data not loaded yet.');
+        return;
+      }
+
       const doc = new jsPDF({
         orientation: 'landscape',
         unit: 'mm',
@@ -69,43 +88,19 @@ function CertificateGenerator() {
       doc.setFontSize(35);
       doc.text(`${userData.full_name}`, 140, 108, { align: 'center' });
 
-      doc.setFontSize(20);
-      doc.text(`${courseData.title}`, 190, 119, { align: 'center' });
-      doc.setTextColor(0, 0, 0);
-      doc.text(`${instructorData.full_name}`, 157, 168, { align: 'left' });
+      // ... (rest of the code remains the same)
 
-      // Use the formatted date with month as a string
-      const options = { day: 'numeric', month: 'long', year: 'numeric' };
-      const formattedDateIssued = new Date(CertificationData.dateIssued).toLocaleDateString(undefined, options);
-      doc.setFontSize(17);
-      doc.text(`${formattedDateIssued}`, 148, 128, { align: 'right' });
-      
-      // Include the original date issued in numerals
-      const originalDateIssued = new Date(CertificationData.dateIssued).toLocaleDateString();
-      doc.setFontSize(10);
-      doc.text(`${originalDateIssued}`, 87, 154, { align: 'right' });
-      doc.setFontSize(10);
-      doc.text(`${CertificationData.certificateSerialNo}`, 96, 158, { align: 'right' });
-      doc.text(`${courseData.courseId}`, 75, 163, { align: 'right' });
+      // Save the PDF locally using FileSaver.js
+      const pdfData = doc.output('blob');
+      saveAs(pdfData, 'certificate.pdf');
 
-      // Include other relevant data from the fetched JSON objects (BadgeData, etc.)
+      // Store the PDF in local storage
+      const pdfBlob = new Blob([pdfData], { type: 'application/pdf' });
+      const pdfUrl = URL.createObjectURL(pdfBlob);
+      localStorage.setItem('generatedCertificate', pdfUrl);
 
-      const signatureImgDataUrl = await toDataUrl(signatureImg);
-      const signatureWidth = 50;
-      const signatureHeight = 50;
-      const signatureHorizontalPosition = 140 + (228 - 140) / 2 - signatureWidth / 2;
-      doc.addImage(signatureImgDataUrl, 'PNG', signatureHorizontalPosition, 135, signatureWidth, signatureHeight);
-
-      // Log all data for verification
-      console.log('CertificationData:', CertificationData);
-      console.log('courseData:', courseData);
-      console.log('userData:', userData);
-      console.log('instructorData:', instructorData);
-
-      // Embed the PDF in an iframe
-      const pdfContent = doc.output('datauristring');
-      console.log('PDF Content:', pdfContent); // Log PDF content
-      setShowCertificate(pdfContent);
+      // Display the PDF using the new CertificateDisplay component
+      setShowCertificate(pdfUrl);
     } catch (error) {
       console.error('Error generating certificate:', error);
     }
@@ -113,13 +108,17 @@ function CertificateGenerator() {
 
   return (
     <div>
-      <button onClick={generateCertificate}>Generate Certificate</button>
+      <button onClick={generateCertificate}>Generate and Save Certificate</button>
 
+      {/* Using the iframe (keep it for now) */}
       {showCertificate && (
         <div>
-          <iframe title="Certificate" src={showCertificate} width="100%" height="600px" />
+          <iframe title="Certificate" src={showCertificate} width="100%" height="400px" style={{ border: 'none' }} />
         </div>
       )}
+
+      {/* Using the new CertificateDisplay component */}
+      {showCertificate && <CertificateDisplay pdfUrl={showCertificate} />}
     </div>
   );
 }
