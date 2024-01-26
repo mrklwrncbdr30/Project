@@ -1,3 +1,5 @@
+// src/components/CertificateGenerator.js
+
 import React, { useState, useEffect } from 'react';
 import jsPDF from 'jspdf';
 import img from '../assets/certificate-background.png';
@@ -118,7 +120,8 @@ function CertificateGenerator() {
 
       {showCertificate && (
         <div>
-          <iframe title="Certificate" src={showCertificate} width="100%" height="600px" />
+          {/* Use <embed> tag instead of <iframe> */}
+          <embed src={showCertificate} type="application/pdf" width="100%" height="600px" />
         </div>
       )}
     </div>
