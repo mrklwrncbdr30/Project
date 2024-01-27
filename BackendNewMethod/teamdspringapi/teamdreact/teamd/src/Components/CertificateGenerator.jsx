@@ -4,7 +4,6 @@ import img from '../assets/certificate-background.png';
 import signatureImg from '../assets/Signiture.png';
 import axios from 'axios';
 
-// Add the toDataUrl function here
 async function toDataUrl(url) {
   return new Promise((resolve, reject) => {
     const img = new Image();
@@ -92,23 +91,24 @@ function CertificateGenerator() {
       const signatureHorizontalPosition = 140 + (228 - 140) / 2 - signatureWidth / 2;
       doc.addImage(signatureImgDataUrl, 'PNG', signatureHorizontalPosition, 135, signatureWidth, signatureHeight);
 
-      console.log('CertificationData:', CertificationData);
-      console.log('courseData:', courseData);
-      console.log('userData:', userData);
-      console.log('instructorData:', instructorData);
-
-      const pdfContent = doc.output('datauristring');
-      console.log('PDF Content:', pdfContent);
-      setShowCertificate(pdfContent);
-
-      // Save the PDF to local storage with default name
-      const customName = `${userData.full_name.replace(/\s+/g, '_')}_${courseData.courseId}_certificate`;
       const pdfData = doc.output('blob');
       const pdfBlob = new Blob([pdfData], { type: 'application/pdf' });
-      const pdfUrl = URL.createObjectURL(pdfBlob);
-      localStorage.setItem(customName, pdfUrl);
+
+      const reader = new FileReader();
+      reader.readAsDataURL(pdfBlob);
+
+      reader.onloadend = async function () {
+        const base64Data = reader.result.split(',')[1];
+        const response = await axios.post('http://localhost:8080/api/certs', { file: base64Data }, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+
+        console.log('Certificate uploaded to the server:', response.data);
+      };
     } catch (error) {
-      console.error('Error generating certificate:', error);
+      console.error('Error generating or uploading certificate:', error);
     }
   }
 
@@ -118,7 +118,7 @@ function CertificateGenerator() {
 
       {showCertificate && (
         <div>
-          <iframe title="Certificate" src={showCertificate} width="100%" height="600px" />
+          <embed src={showCertificate} type="application/pdf" width="100%" height="600px" />
         </div>
       )}
     </div>
